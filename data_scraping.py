@@ -223,11 +223,7 @@ def get_meeting_data(meeting):
     driver_df["Preseason Wknd"] = preseason
     return driver_df
 
-# meetings = get_meetings('2025-01-01')
-# data = get_meeting_data(meetings.iloc[0])
-# data
-
-meetings = get_meetings('2022-01-01')
+meetings = get_meetings('2022-01-01', '2025-06-03')
 data = get_meeting_data(meetings.iloc[0])
 for i in range(1, meetings.shape[0]):
     meeting = meetings.iloc[i]
@@ -239,5 +235,13 @@ data = data.reset_index(drop=True)
 data.to_csv('openf1_data.csv', index=False)
 print("Data saved to openf1_data.csv")
 
+current_meetings = get_meetings('2025-06-03')
+current_data = get_meeting_data(current_meetings.iloc[0])
+for i in range(1, current_meetings.shape[0]):
+    meeting = current_meetings.iloc[i]
+    meeting_data = get_meeting_data(meeting)
+    current_data = pd.concat([current_data, meeting_data], ignore_index=True)
 
+current_data.to_csv('new_data.csv', index=False)
+print("Current data saved to new_data.csv")
 
